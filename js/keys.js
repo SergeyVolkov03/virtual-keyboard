@@ -5,7 +5,7 @@ export const keys = {
     ru: "ё",
     enShift: "~",
     ruShift: "Ё",
-    additionClasses: ["black", "space"],
+    additionClasses: ["black"],
     shiftable: true,
   },
   Digit1: {
@@ -320,15 +320,6 @@ export const keys = {
     ru: "Shift",
     additionClasses: ["left-shift", "black"],
   },
-  Backslash: {
-    line: 4,
-    en: "\\",
-    ru: "\\",
-    enShift: "|",
-    ruShift: "/",
-    additionClasses: [],
-    shiftable: true,
-  },
   KeyZ: {
     line: 4,
     en: "Z",
@@ -339,7 +330,7 @@ export const keys = {
     line: 4,
     en: "X",
     ru: "Ч",
-    additiSonClasses: [],
+    additionClasses: [],
   },
   KeyC: {
     line: 4,
@@ -404,7 +395,12 @@ export const keys = {
     ru: "🠑",
     additionClasses: ["black"],
   },
-  ShiftRight: { line: 4, en: "Shift", ru: "Shift", additionClasses: ["black"] },
+  ShiftRight: {
+    line: 4,
+    en: "Shift",
+    ru: "Shift",
+    additionClasses: ["right-shift", "black"],
+  },
   ControlLeft: {
     line: 5,
     en: "Ctrl",
