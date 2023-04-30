@@ -191,7 +191,7 @@ export const keys = {
   BracketLeft: {
     line: 2,
     en: "[",
-    ru: "х",
+    ru: "Х",
     enShift: "{",
     ruShift: "Х",
     additionClasses: [],
@@ -200,7 +200,7 @@ export const keys = {
   BracketRight: {
     line: 2,
     en: "]",
-    ru: "ъ",
+    ru: "Ъ",
     enShift: "}",
     ruShift: "Ъ",
     additionClasses: [],

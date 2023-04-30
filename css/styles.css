@@ -69,6 +69,36 @@
   resize: none;
 }
 
+.container-language {
+  display: flex;
+  margin-bottom: 4px;
+  gap: 4px;
+}
+
+.language {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 30px;
+  width: 150px;
+  border: 1px solid slategray;
+  border-radius: 4px;
+  background-color: slategray;
+  color: white;
+}
+
+.change-language {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 30px;
+  width: 568px;
+  border: 1px solid slategray;
+  border-radius: 4px;
+  color: white;
+  background-color: slategray;
+}
+
 .container-keyboard {
   max-width: 750px;
   margin: 20px auto;
