@@ -8,11 +8,15 @@ const dobleDownKeys = [
   "AltRight",
   "ControlRight",
 ];
+
 const CURSOR = "_";
 let positionCursor = 0;
-let language = localStorage.language;
 let textForTextArea = "";
-language = "RU";
+let language = localStorage.getItem('language') || 'RU';
+
+function setLanguage() {
+  localStorage.setItem('language', language)
+}
 
 function getStartPage() {
   const body = document.querySelector(".body");
@@ -74,6 +78,7 @@ function changeLanguage(lang) {
     language = "EN";
     elementLanguage.textContent = "EN";
   }
+  setLanguage()
 }
 
 function addSymbol(symbol) {
@@ -117,12 +122,18 @@ addKeys(language);
 addCursor();
 
 document.addEventListener("keydown", (event) => {
+  const elementsKeys = document.querySelectorAll(".key");
+  elementsKeys.forEach((element) => {
+    if (element.dataset.key === event.code) {
+      element.classList.add("down");
+    }
+  });
+
   if (dobleDownKeys.includes(event.code)) {
     alredyDownKeys.add(event.code);
   }
 
   if (alredyDownKeys.has("ShiftLeft") || alredyDownKeys.has("ShiftRight")) {
-    const elementsKeys = document.querySelectorAll(".key");
     elementsKeys.forEach((element) => {
       if (keys[element.dataset.key].shiftable) {
         if (language === "EN") {
@@ -167,6 +178,17 @@ document.addEventListener("keydown", (event) => {
     deleteSymbolWithDelete();
   }
 
+  if (event.code === "CapsLock") {
+    if (alredyDownKeys.has("CapsLock")) {
+      elementsKeys.forEach((element) => {
+        if (element.dataset.key === event.code) {
+          element.classList.remove("down");
+        }
+      });
+      alredyDownKeys.delete(event.code);
+    } else alredyDownKeys.add(event.code);
+  }
+
   if (alredyDownKeys.has("AltLeft") || alredyDownKeys.has("AltRight")) {
     if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
       changeLanguage(language);
@@ -175,8 +197,16 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
+  const elementsKeys = document.querySelectorAll(".key");
+  if (event.code !== "CapsLock") {
+    elementsKeys.forEach((element) => {
+      if (element.dataset.key === event.code) {
+        element.classList.remove("down");
+      }
+    });
+  }
+
   if (alredyDownKeys.has("ShiftLeft") || alredyDownKeys.has("ShiftRight")) {
-    const elementsKeys = document.querySelectorAll(".key");
     elementsKeys.forEach((element) => {
       if (keys[element.dataset.key].shiftable) {
         if (language === "EN") {
@@ -187,6 +217,8 @@ document.addEventListener("keyup", (event) => {
       }
     });
     alredyDownKeys.delete(event.code);
+  } else if (alredyDownKeys.has("CapsLock")) {
+    return;
   } else {
     alredyDownKeys.delete(event.code);
   }

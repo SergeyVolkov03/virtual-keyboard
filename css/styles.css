@@ -61,6 +61,11 @@
   color: slategray;
 }
 
+.down {
+  background-color: black;
+  transition: all 0.3s;
+}
+
 .textarea {
   width: 722px;
   border: 1px solid slategray;
