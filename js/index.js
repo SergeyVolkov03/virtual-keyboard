@@ -86,11 +86,10 @@ function changeLanguage(lang) {
 
 function addSymbol(symbol) {
   const textArea = document.querySelector('.textarea');
-  textForTextArea =
-    textForTextArea.slice(0, positionCursor) +
-    symbol +
-    CURSOR +
-    textForTextArea.slice(positionCursor + 1);
+  textForTextArea = `${textForTextArea.slice(
+    0,
+    positionCursor,
+  )}${symbol}${CURSOR}${textForTextArea.slice(positionCursor + 1)}`;
   textArea.value = textForTextArea;
   positionCursor += 1;
 }
@@ -100,10 +99,10 @@ function deleteSymbolWithBackspace() {
     return;
   }
   const textArea = document.querySelector('.textarea');
-  textForTextArea =
-    textForTextArea.slice(0, positionCursor - 1) +
-    CURSOR +
-    textForTextArea.slice(positionCursor + 1);
+  textForTextArea = `${textForTextArea.slice(
+    0,
+    positionCursor - 1,
+  )}${CURSOR}${textForTextArea.slice(positionCursor + 1)}`;
   textArea.value = textForTextArea;
   positionCursor -= 1;
 }
@@ -113,40 +112,23 @@ function deleteSymbolWithDelete() {
     return;
   }
   const textArea = document.querySelector('.textarea');
-  textForTextArea =
-    textForTextArea.slice(0, positionCursor) + CURSOR + textForTextArea.slice(positionCursor + 2);
+  textForTextArea = `${textForTextArea.slice(0, positionCursor)}${CURSOR}${textForTextArea.slice(
+    positionCursor + 2,
+  )}`;
   textArea.value = textForTextArea;
 }
 
-getStartPage();
-addKeys(language);
-addCursor();
+function rerender() {
+  const elementsKeys = document.querySelectorAll('.key');
 
-document.addEventListener('mousedown', (event) => {
-  if (!event.target.classList.contains('key')) {
-    return;
-  }
-
-  const eventCode = event.target.dataset.key;
-  downHandler(eventCode);
-});
-
-document.addEventListener('mouseup', (event) => {
-  if (!event.target.classList.contains('key')) {
-    return;
-  }
-
-  const eventCode = event.target.dataset.key;
-  upHandler(eventCode);
-});
-
-document.addEventListener('keydown', (event) => {
-  if (event.code === 'Tab') {
-    event.preventDefault();
-  }
-
-  downHandler(event.code);
-});
+  elementsKeys.forEach((element) => {
+    const addString = isShifted ? 'Shift' : '';
+    if (keys[element.dataset.key].shiftable) {
+      const newElement = element;
+      newElement.textContent = keys[element.dataset.key][`${language.toLowerCase()}${addString}`];
+    }
+  });
+}
 
 function downHandler(eventCode) {
   const elementsKeys = document.querySelectorAll('.key');
@@ -214,10 +196,6 @@ function downHandler(eventCode) {
   }
 }
 
-document.addEventListener('keyup', (event) => {
-  upHandler(event.code);
-});
-
 function upHandler(eventCode) {
   if (alredyDownKeys.has('ShiftLeft') && alredyDownKeys.has('ShiftRight') && isCapsLocked) {
     isShifted = true;
@@ -239,14 +217,36 @@ function upHandler(eventCode) {
   }
 }
 
-function rerender() {
-  const elementsKeys = document.querySelectorAll('.key');
+getStartPage();
+addKeys(language);
+addCursor();
 
-  elementsKeys.forEach((element) => {
-    const addString = isShifted ? 'Shift' : '';
-    if (keys[element.dataset.key].shiftable) {
-      const newElement = element;
-      newElement.textContent = keys[element.dataset.key][`${language.toLowerCase()}${addString}`];
-    }
-  });
-}
+document.addEventListener('mousedown', (event) => {
+  if (!event.target.classList.contains('key')) {
+    return;
+  }
+
+  const eventCode = event.target.dataset.key;
+  downHandler(eventCode);
+});
+
+document.addEventListener('mouseup', (event) => {
+  if (!event.target.classList.contains('key')) {
+    return;
+  }
+
+  const eventCode = event.target.dataset.key;
+  upHandler(eventCode);
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.code === 'Tab') {
+    event.preventDefault();
+  }
+
+  downHandler(event.code);
+});
+
+document.addEventListener('keyup', (event) => {
+  upHandler(event.code);
+});
