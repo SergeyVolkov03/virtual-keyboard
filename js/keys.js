@@ -429,9 +429,10 @@ export const keys = {
   },
   ArrowUp: {
     line: 4,
-    en: "🠑",
-    ru: "🠑",
+    en: "\u{2192}",
+    ru: "\u{2192}",
     additionClasses: ["black"],
+    isSymbol: true,
   },
   ShiftRight: {
     line: 4,
@@ -480,17 +481,20 @@ export const keys = {
     en: "🠐",
     ru: "🠐",
     additionClasses: ["black"],
+    isSymbol: true,
   },
   ArrowDown: {
     line: 5,
     en: "🠓",
     ru: "🠓",
     additionClasses: ["black"],
+    isSymbol: true,
   },
   ArrowRight: {
     line: 5,
     en: "🠒",
     ru: "🠒",
     additionClasses: ["black"],
+    isSymbol: true,
   },
 };

@@ -12,16 +12,18 @@ const dobleDownKeys = [
 const CURSOR = "_";
 let positionCursor = 0;
 let textForTextArea = "";
-let language = localStorage.getItem('language') || 'RU';
+let language = localStorage.getItem("language") || "RU";
+let isShifted = false;
+let isCapsLocked = false;
 
 function setLanguage() {
-  localStorage.setItem('language', language)
+  localStorage.setItem("language", language);
 }
 
 function getStartPage() {
   const body = document.querySelector(".body");
   const mainContainer = document.createElement("div");
-  mainContainer.innerHTML = `<textarea class="textarea" disabled></textarea>
+  mainContainer.innerHTML = `<textarea class="textarea"></textarea>
   <div class="container-language"><div class="language">${language}</div><div class="change-language">Shift + Alt</div></div>
   <div class="keyboard"></div>`;
   mainContainer.classList.add("container-keyboard");
@@ -78,7 +80,7 @@ function changeLanguage(lang) {
     language = "EN";
     elementLanguage.textContent = "EN";
   }
-  setLanguage()
+  setLanguage();
 }
 
 function addSymbol(symbol) {
@@ -121,105 +123,138 @@ getStartPage();
 addKeys(language);
 addCursor();
 
+document.addEventListener("mousedown", (event) => {
+  if (!event.target.classList.contains("key")) {
+    return;
+  }
+
+  const eventCode = event.target.dataset.key;
+  downHandler(eventCode);
+});
+
+document.addEventListener("mouseup", (event) => {
+  if (!event.target.classList.contains("key")) {
+    return;
+  }
+
+  const eventCode = event.target.dataset.key;
+  upHandler(eventCode);
+});
+
 document.addEventListener("keydown", (event) => {
+  if (event.code === "Tab") {
+    event.preventDefault();
+  }
+
+  downHandler(event.code);
+});
+
+function downHandler(eventCode) {
   const elementsKeys = document.querySelectorAll(".key");
   elementsKeys.forEach((element) => {
-    if (element.dataset.key === event.code) {
+    if (element.dataset.key === eventCode) {
       element.classList.add("down");
     }
   });
 
-  if (dobleDownKeys.includes(event.code)) {
-    alredyDownKeys.add(event.code);
+  if (dobleDownKeys.includes(eventCode)) {
+    alredyDownKeys.add(eventCode);
+  }
+
+  if (eventCode === "CapsLock") {
+    isCapsLocked = !isCapsLocked;
+    isShifted = isCapsLocked;
   }
 
   if (alredyDownKeys.has("ShiftLeft") || alredyDownKeys.has("ShiftRight")) {
-    elementsKeys.forEach((element) => {
-      if (keys[element.dataset.key].shiftable) {
-        if (language === "EN") {
-          element.textContent = keys[element.dataset.key].enShift;
-        } else {
-          element.textContent = keys[element.dataset.key].ruShift;
-        }
-      }
-    });
-    if (event.code === "AltLeft" || event.code === "AltRight") {
-      changeLanguage(language);
-    } else if (keys[event.code].shiftable) {
-      if (language === "EN") {
-        addSymbol(keys[event.code].enShift);
-      } else {
-        addSymbol(keys[event.code].ruShift);
-      }
-    } else if (keys[event.code].isSymbol) {
-      if (language === "EN") {
-        addSymbol(keys[event.code].en.toUpperCase());
-      } else {
-        addSymbol(keys[event.code].ru.toUpperCase());
-      }
-    }
-  } else if (keys[event.code].isSymbol) {
-    if (language === "EN") {
-      addSymbol(keys[event.code].en.toLowerCase());
-    } else {
-      addSymbol(keys[event.code].ru.toLowerCase());
-    }
+    isShifted = !isCapsLocked;
   }
 
-  if (event.code === "Space") {
+  rerender();
+
+  if (isShifted) {
+    if (keys[eventCode].shiftable) {
+      addSymbol(keys[eventCode][`${language.toLowerCase()}Shift`]);
+    } else if (keys[eventCode].isSymbol) {
+      addSymbol(keys[eventCode][language.toLowerCase()].toUpperCase());
+    }
+  } else if (keys[eventCode].isSymbol) {
+    addSymbol(keys[eventCode][language.toLowerCase()].toLowerCase());
+  }
+
+  if (eventCode === "Space") {
     addSymbol(" ");
   }
 
-  if (event.code === "Backspace") {
+  if (eventCode === "Backspace") {
     deleteSymbolWithBackspace();
   }
 
-  if (event.code === "Delete") {
+  if (eventCode === "Delete") {
     deleteSymbolWithDelete();
   }
 
-  if (event.code === "CapsLock") {
-    if (alredyDownKeys.has("CapsLock")) {
-      elementsKeys.forEach((element) => {
-        if (element.dataset.key === event.code) {
-          element.classList.remove("down");
-        }
-      });
-      alredyDownKeys.delete(event.code);
-    } else alredyDownKeys.add(event.code);
+  if (eventCode === "Enter") {
+    addSymbol("\n");
+  }
+
+  if (eventCode === "Tab") {
+    addSymbol("\t");
   }
 
   if (alredyDownKeys.has("AltLeft") || alredyDownKeys.has("AltRight")) {
-    if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+    if (eventCode === "ShiftLeft" || eventCode === "ShiftRight") {
       changeLanguage(language);
     }
   }
-});
-
-document.addEventListener("keyup", (event) => {
-  const elementsKeys = document.querySelectorAll(".key");
-  if (event.code !== "CapsLock") {
-    elementsKeys.forEach((element) => {
-      if (element.dataset.key === event.code) {
-        element.classList.remove("down");
-      }
-    });
-  }
 
   if (alredyDownKeys.has("ShiftLeft") || alredyDownKeys.has("ShiftRight")) {
-    elementsKeys.forEach((element) => {
-      if (keys[element.dataset.key].shiftable) {
-        if (language === "EN") {
-          element.textContent = keys[element.dataset.key].en;
-        } else {
-          element.textContent = keys[element.dataset.key].ru;
-        }
-      }
-    });
-    alredyDownKeys.delete(event.code);
-  } else if (alredyDownKeys.has("CapsLock")) {
-    return;
-  } else {
-    alredyDownKeys.delete(event.code);
+    if (eventCode === "AltLeft" || eventCode === "AltRight") {
+      changeLanguage(language);
+    }
   }
+}
+
+document.addEventListener("keyup", (event) => {
+  upHandler(event.code);
 });
+
+function upHandler(eventCode) {
+  if (
+    alredyDownKeys.has("ShiftLeft") &&
+    alredyDownKeys.has("ShiftRight") &&
+    isCapsLocked
+  ) {
+    isShifted = true;
+  } else if (
+    alredyDownKeys.has("ShiftLeft") ||
+    alredyDownKeys.has("ShiftRight")
+  ) {
+    isShifted = isCapsLocked;
+  }
+
+  rerender();
+  alredyDownKeys.delete(eventCode);
+
+  if (!isCapsLocked) {
+    const capsLockKey = document.querySelector('[data-key="CapsLock"]');
+    capsLockKey.classList.remove("down");
+  }
+
+  if (eventCode !== "CapsLock") {
+    const currentKey = document.querySelector(`[data-key="${eventCode}"]`);
+    currentKey.classList.remove("down");
+  }
+}
+
+function rerender() {
+  const elementsKeys = document.querySelectorAll(".key");
+
+  elementsKeys.forEach((element) => {
+    const addString = isShifted ? "Shift" : "";
+    if (keys[element.dataset.key].shiftable) {
+      element.textContent =
+        keys[element.dataset.key][`${language.toLowerCase()}${addString}`];
+    }
+  });
+}
