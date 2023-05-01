@@ -76,25 +76,15 @@ function changeLanguage(lang) {
   }
 }
 
-function addSymbol(symbolEn, symbolRu) {
+function addSymbol(symbol) {
   const textArea = document.querySelector(".textarea");
-  if (language === "EN") {
-    textForTextArea =
-      textForTextArea.slice(0, positionCursor) +
-      symbolEn +
-      CURSOR +
-      textForTextArea.slice(positionCursor + 1);
-    textArea.value = textForTextArea;
-    positionCursor += 1;
-  } else {
-    textForTextArea =
-      textForTextArea.slice(0, positionCursor) +
-      symbolRu +
-      CURSOR +
-      textForTextArea.slice(positionCursor + 1);
-    textArea.value = textForTextArea;
-    positionCursor += 1;
-  }
+  textForTextArea =
+    textForTextArea.slice(0, positionCursor) +
+    symbol +
+    CURSOR +
+    textForTextArea.slice(positionCursor + 1);
+  textArea.value = textForTextArea;
+  positionCursor += 1;
 }
 
 getStartPage();
@@ -107,21 +97,37 @@ document.addEventListener("keydown", (event) => {
   }
 
   if (alredyDownKeys.has("ShiftLeft") || alredyDownKeys.has("ShiftRight")) {
+    const elementsKeys = document.querySelectorAll(".key");
+    elementsKeys.forEach((element) => {
+      if (keys[element.dataset.key].shiftable) {
+        if (language === "EN") {
+          element.textContent = keys[element.dataset.key].enShift;
+        } else {
+          element.textContent = keys[element.dataset.key].ruShift;
+        }
+      }
+    });
     if (event.code === "AltLeft" || event.code === "AltRight") {
       changeLanguage(language);
     } else if (keys[event.code].shiftable) {
-      addSymbol(keys[event.code].enShift, keys[event.code].ruShift);
+      if (language === "EN") {
+        addSymbol(keys[event.code].enShift);
+      } else {
+        addSymbol(keys[event.code].ruShift);
+      }
     } else if (keys[event.code].isSymbol) {
-      addSymbol(
-        keys[event.code].en.toUpperCase(),
-        keys[event.code].ru.toUpperCase()
-      );
+      if (language === "EN") {
+        addSymbol(keys[event.code].en.toUpperCase());
+      } else {
+        addSymbol(keys[event.code].ru.toUpperCase());
+      }
     }
   } else if (keys[event.code].isSymbol) {
-    addSymbol(
-      keys[event.code].en.toLowerCase(),
-      keys[event.code].ru.toLowerCase()
-    );
+    if (language === "EN") {
+      addSymbol(keys[event.code].en.toLowerCase());
+    } else {
+      addSymbol(keys[event.code].ru.toLowerCase());
+    }
   }
 
   if (alredyDownKeys.has("AltLeft") || alredyDownKeys.has("AltRight")) {
@@ -132,6 +138,19 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
+  if (alredyDownKeys.has("ShiftLeft") || alredyDownKeys.has("ShiftRight")) {
+    const elementsKeys = document.querySelectorAll(".key");
+    elementsKeys.forEach((element) => {
+      if (keys[element.dataset.key].shiftable) {
+        if (language === "EN") {
+          element.textContent = keys[element.dataset.key].en;
+        } else {
+          element.textContent = keys[element.dataset.key].ru;
+        }
+      }
+    });
+  }
+
   if (alredyDownKeys.has(event.code)) {
     alredyDownKeys.delete(event.code);
   }
