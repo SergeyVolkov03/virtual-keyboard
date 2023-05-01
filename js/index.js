@@ -87,6 +87,31 @@ function addSymbol(symbol) {
   positionCursor += 1;
 }
 
+function deleteSymbolWithBackspace() {
+  if (textForTextArea.length === 1) {
+    return;
+  }
+  const textArea = document.querySelector(".textarea");
+  textForTextArea =
+    textForTextArea.slice(0, positionCursor - 1) +
+    CURSOR +
+    textForTextArea.slice(positionCursor + 1);
+  textArea.value = textForTextArea;
+  positionCursor -= 1;
+}
+
+function deleteSymbolWithDelete() {
+  if (textForTextArea.length === 1) {
+    return;
+  }
+  const textArea = document.querySelector(".textarea");
+  textForTextArea =
+    textForTextArea.slice(0, positionCursor) +
+    CURSOR +
+    textForTextArea.slice(positionCursor + 2);
+  textArea.value = textForTextArea;
+}
+
 getStartPage();
 addKeys(language);
 addCursor();
@@ -130,6 +155,18 @@ document.addEventListener("keydown", (event) => {
     }
   }
 
+  if (event.code === "Space") {
+    addSymbol(" ");
+  }
+
+  if (event.code === "Backspace") {
+    deleteSymbolWithBackspace();
+  }
+
+  if (event.code === "Delete") {
+    deleteSymbolWithDelete();
+  }
+
   if (alredyDownKeys.has("AltLeft") || alredyDownKeys.has("AltRight")) {
     if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
       changeLanguage(language);
@@ -149,9 +186,8 @@ document.addEventListener("keyup", (event) => {
         }
       }
     });
-  }
-
-  if (alredyDownKeys.has(event.code)) {
+    alredyDownKeys.delete(event.code);
+  } else {
     alredyDownKeys.delete(event.code);
   }
 });
