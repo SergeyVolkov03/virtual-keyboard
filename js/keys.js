@@ -7,6 +7,7 @@ export const keys = {
     ruShift: "Ё",
     additionClasses: ["black"],
     shiftable: true,
+    isSymbol: true,
   },
   Digit1: {
     line: 1,
@@ -16,6 +17,7 @@ export const keys = {
     ruShift: "!",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Digit2: {
     line: 1,
@@ -25,6 +27,7 @@ export const keys = {
     ruShift: '"',
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Digit3: {
     line: 1,
@@ -34,6 +37,7 @@ export const keys = {
     ruShift: "№",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Digit4: {
     line: 1,
@@ -43,6 +47,7 @@ export const keys = {
     ruShift: ";",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Digit5: {
     line: 1,
@@ -52,6 +57,7 @@ export const keys = {
     ruShift: "%",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Digit6: {
     line: 1,
@@ -61,6 +67,7 @@ export const keys = {
     ruShift: ":",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Digit7: {
     line: 1,
@@ -70,6 +77,7 @@ export const keys = {
     ruShift: "?",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Digit8: {
     line: 1,
@@ -79,6 +87,7 @@ export const keys = {
     ruShift: "*",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Digit9: {
     line: 1,
@@ -88,6 +97,7 @@ export const keys = {
     ruShift: "(",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Digit0: {
     line: 1,
@@ -97,6 +107,7 @@ export const keys = {
     ruShift: ")",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Minus: {
     line: 1,
@@ -106,6 +117,7 @@ export const keys = {
     ruShift: "_",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Equal: {
     line: 1,
@@ -115,6 +127,7 @@ export const keys = {
     ruShift: "+",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Backspace: {
     line: 1,
@@ -133,60 +146,70 @@ export const keys = {
     en: "Q",
     ru: "Й",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyW: {
     line: 2,
     en: "W",
     ru: "Ц",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyE: {
     line: 2,
     en: "E",
     ru: "У",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyR: {
     line: 2,
     en: "R",
     ru: "К",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyT: {
     line: 2,
     en: "T",
     ru: "Е",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyY: {
     line: 2,
     en: "Y",
     ru: "Н",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyU: {
     line: 2,
     en: "U",
     ru: "Г",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyI: {
     line: 2,
     en: "I",
     ru: "Ш",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyO: {
     line: 2,
     en: "O",
     ru: "Щ",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyP: {
     line: 2,
     en: "P",
     ru: "З",
     additionClasses: [],
+    isSymbol: true,
   },
   BracketLeft: {
     line: 2,
@@ -196,6 +219,7 @@ export const keys = {
     ruShift: "Х",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   BracketRight: {
     line: 2,
@@ -205,6 +229,7 @@ export const keys = {
     ruShift: "Ъ",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Backslash: {
     line: 2,
@@ -214,6 +239,7 @@ export const keys = {
     ruShift: "/",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Delete: {
     line: 2,
@@ -232,54 +258,63 @@ export const keys = {
     en: "A",
     ru: "Ф",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyS: {
     line: 3,
     en: "S",
     ru: "Ы",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyD: {
     line: 3,
     en: "D",
     ru: "В",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyF: {
     line: 3,
     en: "F",
     ru: "А",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyG: {
     line: 3,
     en: "G",
     ru: "П",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyH: {
     line: 3,
     en: "H",
     ru: "Р",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyJ: {
     line: 3,
     en: "J",
     ru: "О",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyK: {
     line: 3,
     en: "K",
     ru: "Л",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyL: {
     line: 3,
     en: "L",
     ru: "Д",
     additionClasses: [],
+    isSymbol: true,
   },
   Semicolon: {
     line: 3,
@@ -289,15 +324,7 @@ export const keys = {
     ruShift: "Ж",
     additionClasses: [],
     shiftable: true,
-  },
-  Semicolon: {
-    line: 3,
-    en: ";",
-    ru: "Ж",
-    enShift: ":",
-    ruShift: "Ж",
-    additionClasses: [],
-    shiftable: true,
+    isSymbol: true,
   },
   Quote: {
     line: 3,
@@ -307,6 +334,7 @@ export const keys = {
     ruShift: "Э",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Enter: {
     line: 3,
@@ -325,42 +353,49 @@ export const keys = {
     en: "Z",
     ru: "Я",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyX: {
     line: 4,
     en: "X",
     ru: "Ч",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyC: {
     line: 4,
     en: "C",
     ru: "С",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyV: {
     line: 4,
     en: "V",
     ru: "М",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyB: {
     line: 4,
     en: "B",
     ru: "И",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyN: {
     line: 4,
     en: "N",
     ru: "Т",
     additionClasses: [],
+    isSymbol: true,
   },
   KeyM: {
     line: 4,
     en: "M",
     ru: "Ь",
     additionClasses: [],
+    isSymbol: true,
   },
   Comma: {
     line: 4,
@@ -370,6 +405,7 @@ export const keys = {
     ruShift: "Б",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Period: {
     line: 4,
@@ -379,6 +415,7 @@ export const keys = {
     ruShift: "Ю",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   Slash: {
     line: 4,
@@ -388,6 +425,7 @@ export const keys = {
     ruShift: ",",
     additionClasses: [],
     shiftable: true,
+    isSymbol: true,
   },
   ArrowUp: {
     line: 4,

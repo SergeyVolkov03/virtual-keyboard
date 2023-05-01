@@ -1,11 +1,17 @@
-// document.addEventListener("keydown", (event) => {
-//   console.log(event.key, event.code);
-// });
-
-// const textArea = document.querySelector(".textarea");
-// textArea.value = "ghadfva";
 import { keys } from "./keys.js";
+const alredyDownKeys = new Set();
+const dobleDownKeys = [
+  "ShiftLeft",
+  "ShiftRight",
+  "ControlLeft",
+  "AltLeft",
+  "AltRight",
+  "ControlRight",
+];
+const CURSOR = "_";
+let positionCursor = 0;
 let language = localStorage.language;
+let textForTextArea = "";
 language = "RU";
 
 function getStartPage() {
@@ -35,7 +41,6 @@ function addKeys(lang) {
           keyElement.textContent = keys[key].ru;
         }
         keyElement.classList.add("key");
-        console.log(keys[key].additionClasses);
         if (keys[key].additionClasses.length > 0) {
           for (let i of keys[key].additionClasses) {
             keyElement.classList.add(`${i}`);
@@ -45,6 +50,12 @@ function addKeys(lang) {
       }
     }
   }
+}
+
+function addCursor() {
+  const textArea = document.querySelector(".textarea");
+  textForTextArea += CURSOR;
+  textArea.value = textForTextArea;
 }
 
 function changeLanguage(lang) {
@@ -65,5 +76,63 @@ function changeLanguage(lang) {
   }
 }
 
+function addSymbol(symbolEn, symbolRu) {
+  const textArea = document.querySelector(".textarea");
+  if (language === "EN") {
+    textForTextArea =
+      textForTextArea.slice(0, positionCursor) +
+      symbolEn +
+      CURSOR +
+      textForTextArea.slice(positionCursor + 1);
+    textArea.value = textForTextArea;
+    positionCursor += 1;
+  } else {
+    textForTextArea =
+      textForTextArea.slice(0, positionCursor) +
+      symbolRu +
+      CURSOR +
+      textForTextArea.slice(positionCursor + 1);
+    textArea.value = textForTextArea;
+    positionCursor += 1;
+  }
+}
+
 getStartPage();
 addKeys(language);
+addCursor();
+
+document.addEventListener("keydown", (event) => {
+  if (dobleDownKeys.includes(event.code)) {
+    alredyDownKeys.add(event.code);
+  }
+
+  if (alredyDownKeys.has("ShiftLeft") || alredyDownKeys.has("ShiftRight")) {
+    if (event.code === "AltLeft" || event.code === "AltRight") {
+      changeLanguage(language);
+    } else if (keys[event.code].shiftable) {
+      addSymbol(keys[event.code].enShift, keys[event.code].ruShift);
+    } else if (keys[event.code].isSymbol) {
+      addSymbol(
+        keys[event.code].en.toUpperCase(),
+        keys[event.code].ru.toUpperCase()
+      );
+    }
+  } else if (keys[event.code].isSymbol) {
+    addSymbol(
+      keys[event.code].en.toLowerCase(),
+      keys[event.code].ru.toLowerCase()
+    );
+  }
+
+  if (alredyDownKeys.has("AltLeft") || alredyDownKeys.has("AltRight")) {
+    if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+      changeLanguage(language);
+    }
+  }
+});
+
+document.addEventListener("keyup", (event) => {
+  if (alredyDownKeys.has(event.code)) {
+    alredyDownKeys.delete(event.code);
+  }
+});
